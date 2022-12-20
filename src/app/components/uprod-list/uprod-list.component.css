@@ -1,0 +1,36 @@
+mat-grid-tile {
+    background: white;
+    margin: 3px;
+    
+  }
+  .example-list{
+    margin-bottom: 50px;
+  }
+  .example-card {
+    max-width: 200px;
+    margin-bottom: 8px;
+    margin: 1em;
+  }
+  
+  .example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+  }
+
+
+  .list {
+    
+    max-width: 750px;
+    margin: auto;
+  }
+
+  .example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  

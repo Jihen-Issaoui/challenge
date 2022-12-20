@@ -1,0 +1,184 @@
+<div class="container mt-5">
+  <div class="form-group">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Search..."
+      [(ngModel)]="filterTerm"
+    />
+  </div>
+ <!-- <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of comwork | filter: filterTerm">
+        <td>{{ user.id }}</td>
+        <td>{{ user.surname }}</td>
+       
+      </tr>
+    </tbody>
+  </table>
+
+
+
+<p>uprod-list works!</p>
+
+<form class="example-form">
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Number</mat-label>
+    <input type="text"
+           placeholder="Pick one"
+           aria-label="Number"
+           matInput
+           [formControl]="myControl"
+           [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        {{option}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
+<mat-form-field>
+  <input matInput placeholder="search" type="search">
+</mat-form-field>
+-->
+
+<!--
+<input type="search" id="site-search" name="q">
+
+<button>Search</button>
+    *ngFor="let comwork of comwork | filter: filterTerm"  -->
+<br>
+<mat-grid-list class="example-list"  cols="4" rowHeight="4:6">
+  <mat-grid-tile *ngFor="let comwork of comwork | filter: filterTerm">
+<mat-card class="example-card">
+ 
+ <!-- <img mat-card-image src="assets/avatar.jpg" alt="Photo of a Shiba Inu"> style="width: 50%;"-->
+ <img mat-card-image id="myimage"  [src]='thumbnail' />
+  <mat-card-content>
+    <mat-card-title>{{ comwork.surname }}<!-- .. {{ comwork.image_id }}--></mat-card-title>
+    
+  </mat-card-content>
+  
+    <mat-card-header align="end">
+          <mat-card-subtitle>  {{ comwork.stars_count}}</mat-card-subtitle>
+          <img mat-card-image src="assets/etoile_81607.png" alt="etoile"  style="width:5%">             
+    </mat-card-header>
+</mat-card>
+</mat-grid-tile>
+</mat-grid-list>
+</div>
+<!--
+<p>img</p>
+<ul class="list-group">
+  <li
+    class="list-group-item"
+    *ngFor="let tutorials"
+  >
+    {{ tutorials.b64Content }}
+    {{ tutorials.direction }}
+    
+    
+  </li>
+</ul>
+
+<p>bonjour</p>
+-->
+<!--
+<ul class="list-group">
+  <li
+    class="list-group-item"
+    *ngFor="let comwork of comwork"
+  >
+    {{ comwork.surname }}
+    {{ comwork.image_id }}  
+    
+  </li>
+</ul>
+
+<p>ii</p>
+<p *ngFor="let tutorial of tutorials">
+{{ tutorial.surname }} 
+{{ tutorial.id }}
+{{ tutorial.authorization }}
+          ici 
+</p>-->
+<!--<div  *ngIf="tutorials">
+  <h4>Tutorial</h4>
+  <div>
+    <label><strong>Title:</strong></label> {{ tutorials.authorization }}
+  </div>
+</div>-->
+<!--<p [(ngModel)]="authorization" class="form-control"></p>
+<p>ici uprod</p>
+
+<div class="list row">
+    <div class="col-md-8">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search by title"
+          [(ngModel)]="title"
+        />
+        <div class="input-group-append">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            (click)="searchTitle()"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h4>Tutorials List</h4>
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let tutorial of tutorials; let i = index"
+          [class.active]="i == currentIndex"
+          (click)="setActiveTutorial(tutorial, i)"
+        >
+          {{ tutorial.title }}  
+          
+        </li>
+      </ul>
+  
+      <button class="m-3 btn btn-sm btn-danger" (click)="removeAllTutorials()">
+        Remove All
+      </button>
+    </div>
+    <div class="col-md-6">
+      <div *ngIf="currentTutorial.id">
+        <h4>Tutorial</h4>
+        <div>
+          <label><strong>Title:</strong></label> {{ currentTutorial.title }}
+        </div>
+        <div>
+          <label><strong>Description:</strong></label>
+          {{ currentTutorial.description }}
+        </div>
+        <div>
+          <label><strong>Status:</strong></label>
+          {{ currentTutorial.published ? "Published" : "Pending" }}
+        </div>
+  
+        <a class="badge badge-warning" routerLink="/tutorials/{{ currentTutorial.id }}">
+          Edit
+        </a>
+      </div>
+  
+      <div *ngIf="!currentTutorial">
+        <br />
+        <p>Please click on a Tutorial...</p>
+      </div>
+    </div>
+  </div>
+-->
