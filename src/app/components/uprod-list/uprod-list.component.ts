@@ -33,6 +33,7 @@ export class UprodListComponent implements OnInit  {
   tutorials?: Uprod;
   comwork?: Comwork[] = [];
   cowork? : Comwork ;
+  filterTerm!: string;
 
 
   constructor(private uprodService: UprodService,
