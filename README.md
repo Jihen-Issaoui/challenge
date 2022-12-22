@@ -5,15 +5,23 @@
 2- Pour lancer  le projet je veux exécuter la commande npm install puis ng serve.
 
 3- Pour Test le foncionnement de l'API je veux utiliser postman :
+
     3-1- S'authentifier  à travers url : https://api.uprodit.com/v1/authheader pour :
+    
         - /v1/search/all : src\assets\postman authheader search all.png
+        
         - /v2/profile/picture/f/{id} : src\assets\pastman authheader picture 62.png
+        
     3-2- Tester la méthode /v1/search/all  pour déterminer la collection de la  recherche par critères : src\assets\postman search all.png
+    
     3-3- Tester la méthode /v2/profile/picture/f/{id} pour récupérer les photos de profils : src\assets\pstman picture 62.png
     
 4-  Au niveau de l'application j'ai créé les dossiers : 
+
     components : contient les composants de l'application.
+    
     Assets : contient les images et screanshot.
+    
     Services : qui permet d'utiliser l'API pour simuler le serveur et la bibliothèque rxjs pour récupérer l'API.
 
 
