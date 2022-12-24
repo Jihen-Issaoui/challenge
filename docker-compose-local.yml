@@ -3,7 +3,5 @@ version: '3.3'
 services:
   jihen_challenge_ui:
     build: .
-    env_file: 
-      - .env
     ports:
       - "3000:80"
