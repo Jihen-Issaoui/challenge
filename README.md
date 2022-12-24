@@ -24,11 +24,17 @@
     
     Services : qui permet d'utiliser l'API pour simuler le serveur et la bibliothèque rxjs pour récupérer l'API.
 
-
-
 # Challenge
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.1.4.
+
+## Running with docker in local
+
+```shell
+docker-compose -f docker-compose-local.yaml up --build --force-receate
+```
+
+Then you just have to test with this URL: http://localhost:3000
 
 ## Development server
 
