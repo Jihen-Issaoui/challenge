@@ -2,6 +2,8 @@ version: '3.3'
 
 services:
   jihen_challenge_ui:
-    build: .
+    build: 
+      context: .
+      target: jihen_challenge_ui
     ports:
       - "3000:80"

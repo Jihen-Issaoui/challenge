@@ -16,6 +16,8 @@ COPY ./ /app/
 
 RUN npm run build
 
+CMD ["ls", "-la", "/app"]
+
 # Stage run
 
 FROM nginx:${NGINX_VERSION} AS jihen_challenge_ui
@@ -24,7 +26,7 @@ COPY .docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
 COPY .docker/nginx/docker-entrypoint.sh /docker-entrypoint.sh
 
-COPY --from=jihen_challenge_builder /app/build/ /usr/share/nginx/html
+COPY --from=jihen_challenge_builder /app/dist/ /usr/share/nginx/html
 
 RUN chmod +x /docker-entrypoint.sh
 
