@@ -1,16 +1,20 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+//import { Observable } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
 //import { Comwork } from 'src/app/models/comwork.model';
 import { UprodService } from 'src/app/services/uprod.service';
 import { Uprod } from 'src/app/uprod';
 import { Comwork } from 'src/app/comwork';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+//import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
+import { Observable, Subject } from 'rxjs';
+//import { FormControl } from '@angular/forms';
 import { startWith} from 'rxjs/operators';
+/*import { Thumbnail } from 'src/app/thmbnail';
+import { promises } from 'dns';*/
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json', 
@@ -29,157 +33,72 @@ const httpOptions = {
 
 export class UprodListComponent implements OnInit  {
 
-  thumbnail: any;
- // const rslt : Observable<any> = this.uprodService.SearchAll(this.uprodService.AuthHeader("https://api.uprodit.com/v1/search/all?startIndex=0&maxResults=10&usecase=perso"));
-         
   tutorials?: Uprod;
-  comwork?: Comwork[] = [];
-  cowork? : Comwork ;
-  
-  filterTerm!: string;
-  userRecords = [
-    {
-      id: 1,
-      name: 'Leanne Graham',
-      username: 'Bret',
-      email: 'Sincere@april.biz',
-    },
-    {
-      id: 2,
-      name: 'Ervin Howell',
-      username: 'Antonette',
-      email: 'Shanna@melissa.tv',
-    },
-    {
-      id: 3,
-      name: 'Clementine Bauch',
-      username: 'Samantha',
-      email: 'Nathan@yesenia.net',
-    },
-    {
-      id: 4,
-      name: 'Patricia Lebsack',
-      username: 'Karianne',
-      email: 'Julianne.OConner@kory.org',
-    },
-    {
-      id: 5,
-      name: 'Chelsey Dietrich',
-      username: 'Kamren',
-      email: 'Lucio_Hettinger@annie.ca',
-    },
-    {
-      id: 6,
-      name: 'Mrs. Dennis Schulist',
-      username: 'Leopoldo_Corkery',
-      email: 'Karley_Dach@jasper.info',
-    },
-    {
-      id: 7,
-      name: 'Kurtis Weissnat',
-      username: 'Elwyn.Skiles',
-      email: 'Telly.Hoeger@billy.biz',
-    },
-    {
-      id: 8,
-      name: 'Nicholas Runolfsdottir V',
-      username: 'Maxime_Nienow',
-      email: 'Sherwood@rosamond.me',
-    },
-    {
-      id: 9,
-      name: 'Glenna Reichert',
-      username: 'Delphine',
-      email: 'Chaim_McDermott@dana.io',
-    },
-    {
-      id: 10,
-      name: 'Clementina DuBuque',
-      username: 'Moriah.Stanton',
-      email: 'Rey.Padberg@karina.biz',
-    },
-  ];
-
-
-//  image_id? : [];
-  
-/*
-    myControl = new FormControl('');
-    options: string[] = ['One', 'Two', 'Three'];
-    filteredOptions?: Observable<string[]>;
-*/
+  //comworks?: Comwork[];
+  //filterText: string = '';
+  private subjectKey =new Subject<any>();
+  comworks: Array<Comwork>=[]
+  filterText:any
 
   constructor(private uprodService: UprodService,
     private route: ActivatedRoute,
     private router: Router, private sanitizer: DomSanitizer) {  }
 
-  ngOnInit(): void {
-   
-    const fileId = localStorage.getItem("fileId");
-    console.log(fileId) 
+    async ngOnInit(): Promise<void> {
     this.AuthHeaderUprod();
+    //console.log(this.searchAllImg(14896397, 130150))
+    this.subjectKey.pipe(debounceTime(500)).subscribe(async (T)=>{
+      console.log("term: "+T);
+      await this.authHeaderSearchTerms(T)
+    }
+    )
+    
+  }  
 
-
-  
-    //const image_id = localStorage.getItem("names");
-    //console.log(image_id);
-
-    //this.AuthHeaderImg(image_id)
-
- /*   this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );*/
+  async onSearch($event: any){
+    const value=$event.target.value;
+    this.subjectKey.next(value);
   }
 
-
- /* private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
-  }*/
-  
-
-  AuthHeaderImg(image_id : number, id : number): void {
-  
+  async authHeaderImg(image_id : number, id : number): Promise<void> {
     this.uprodService.AuthHeader(`https://api.uprodit.com/v2/profile/picture/f/${image_id}`)
       .subscribe(
        ( data: any)  => {
-          //console.log(data.authorization);
           localStorage.setItem("token",data.authorization)
-          this.SearchAllImg(image_id,id)
-          //this.img();
-         // console.log("hhh"+this.SearchAllImg)
-
+          this.searchAllImg(image_id,id)
         },
         error => {
           console.log(error);
           console.log("it's error")
         });
   }
+ 
+
+  searchAllImg(image_id: any, id :any) {
+    const token = localStorage.getItem("token");
+    this.uprodService.getImage(image_id,token).subscribe( (data: any)=>{
+        const objectURL = 'data:image/jpeg;base64,' + data.b64Content;
+        //const thumbnail = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+        const index = this.comworks?.findIndex(item => id == item.id);
+        
+        const com0 = this.comworks[0];
+       // console.log(com0);
+        // com0.image_url = 'https://material.angular.io/assets/img/examples/shiba1.jpg'
+        if (index && this.comworks) {
+          const com = this.comworks[index];
+          com.image_url = objectURL
+         // console.log(com.image_url);
+          this.comworks?.splice(index,1,com)
+        }  
+      },
+    error => {
+      console.log(error);
+      console.log("it's error in searchallImage")
+    });
+  }
 
 
-SearchAllImg(image_id: any, id :any) : void {
-  const token = localStorage.getItem("token");
-  
-  this.uprodService.getImage(image_id,token).subscribe( (data: any)=>{
-     
-      if ( data.searchId == image_id && data.profileId ==  id){
-      this.tutorials = data;
-      let objectURL = 'data:image/jpeg;base64,' + data.b64Content;
-
-       this.thumbnail = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-
-      }
-  },
-  error => {
-    console.log(error);
-    console.log("it's error in searchallImage")
-  });
-}
-
-
-  AuthHeaderUprod(): void {
+  async AuthHeaderUprod(): Promise<void> {
     this.uprodService.AuthHeader("https://api.uprodit.com/v1/search/all?startIndex=0&maxResults=10&usecase=perso")
       .subscribe(
        ( data: any)  => {
@@ -193,23 +112,19 @@ SearchAllImg(image_id: any, id :any) : void {
   }
 
 
-  SearchAllUprod() : void {
+  async SearchAllUprod() : Promise<void> {
     const token = localStorage.getItem("token");
     this.uprodService.SearchAll(token).subscribe( (data: any)=>{
-      this.comwork = data;
-      
-      var names = [];
-      for (let i = 0; i < data.length; i++) {
-
-        console.log(data[i].image_id);
-        console.log(data[i].id);
-        this.AuthHeaderImg(data[i].image_id, data[i].id);
-        names[i] = data[i].image_id;
-
-        }
-      localStorage.setItem("names", JSON.stringify(names));
-      console.log("img console : "+ names);
-      
+    for (let i = 0; i < data.length; i++) 
+    {
+        //data[i].image_url = "https://us.123rf.com/450wm/mathier/mathier1905/mathier190500002/mathier190500002.jpg?ver=6"
+        this.authHeaderImg(data[i].image_id, data[i].id);
+    }
+    this.authHeaderImg(data[0].image_id, data[0].id);
+    console.log(data[1].image_url)
+    //console.log(data[0].image_url)
+    this.comworks = data; 
+    //console.log(data)     
     },
     error => {
       console.log(error);
@@ -217,4 +132,44 @@ SearchAllImg(image_id: any, id :any) : void {
     });
   }
 
+
+  // serach par terms
+
+  authHeaderSearchTerms(term : string): void{
+    this.uprodService.AuthHeader(`https://api.uprodit.com/v1/search/all?startIndex=0&maxResults=10&usecase=perso&terms=${term}`)
+      .subscribe(
+       ( data: any)  => {
+          localStorage.setItem("token",data.authorization)
+          this.searchAllTerms(term)
+        },
+        error => {
+          console.log(error);
+          console.log("it's error")
+        });
+  }
+ 
+
+  async searchAllTerms(term :any) : Promise<void> {
+    const token = localStorage.getItem("token");
+    this.uprodService.getTerms(term,token).subscribe( (data: any)=>{
+      console.log(data);
+      for (let i = 0; i < data.length; i++) 
+    {
+        data[i].image_url = "https://us.123rf.com/450wm/mathier/mathier1905/mathier190500002/mathier190500002.jpg?ver=6"
+        this.authHeaderImg(data[i].image_id, data[i].id);
+    }
+    this.authHeaderImg(data[0].image_id, data[0].id);
+    //this.comworks = data; 
+     // console.log(data[2].skills.name);
+     // console.log(data[1].specialities);
+      this.comworks = data; 
+      },
+    error => {
+      console.log(error);
+      console.log("it's error in searchallterms")
+    });
+  }
+
 }
+
+

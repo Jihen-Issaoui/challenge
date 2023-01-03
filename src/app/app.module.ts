@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -13,14 +13,17 @@ import {MatCardModule} from '@angular/material/card';
 //import { AddUprodComponent } from './components/add-uprod/add-uprod.component';
 //import { UprodDetailsComponent } from './components/uprod-details/uprod-details.component';
 import { UprodListComponent } from './components/uprod-list/uprod-list.component';
+//import { Filtre } from './components/uprod-list/filtre.pipe';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 //import { FormControl } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
+//import { Router, RouterModule, Routes, ROUTES } from '@angular/router';
+import {MatIconModule} from '@angular/material/icon';
 
-
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { filterPipe } from './components/uprod-list/filtre.pipe';
 /*  MatMenuModule,
   MatToolbarModule,
   MatIconModule,
@@ -31,6 +34,14 @@ import { HttpClientModule } from '@angular/common/http';
   MatGridListModule,
   MatCheckboxModule
 } from '@angular/material';*/
+
+/*
+const routes: Routes = [
+  { path: '', redirectTo: 'uprod', pathMatch: 'full' },
+  { path: 'uprod', component: UprodListComponent },
+ // { path: 'uprod/:id', component: UprodDetailsComponent },
+  //{ path: 'add', component: AddUprodComponent }
+];*/
 
 const materialModules = [  
   MatInputModule,
@@ -54,23 +65,30 @@ const materialModules = [
     AppComponent,
   //  AddUprodComponent,
    // UprodDetailsComponent,
-    UprodListComponent
+    UprodListComponent,
+    filterPipe
     
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-  MatInputModule,
-  MatFormFieldModule,
-  MatButtonModule,
-  MatGridListModule,
-  MatCardModule,
-  FormsModule,
-  HttpClientModule,
-  MatAutocompleteModule,
-  Ng2SearchPipeModule,
-  //FormControl
+    MatInputModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatGridListModule,
+    MatCardModule,
+    FormsModule,
+    HttpClientModule,
+    MatAutocompleteModule,
+    Ng2SearchPipeModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    //FormControl,
+//RouterModule,
+//BrowserModule,
+     // RouterModule.forRoot(routes)
+     // FormsModule
  /* MatMenuModule,
   MatToolbarModule,
   MatIconModule,
@@ -82,6 +100,7 @@ const materialModules = [
   MatCheckboxModule*/
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule { }

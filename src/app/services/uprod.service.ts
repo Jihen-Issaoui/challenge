@@ -10,107 +10,24 @@ import { Comwork } from 'src/app/comwork';
 //import { v4 } from 'uuid'
 
 const baseUrl = 'https://api.uprodit.com/v1/search/all?startIndex=0&maxResults=10&usecase=perso' //'http://localhost:8080/api/tutorials';
-/*const Searchall = async (baseUrl) => {
-  const result = await Axios.post(`https://api.uprodit.com/v1/authheader`, {
-    "appid":"challenge_uprodit",
-    "env":"production",
-    "uri": baseUrl
-  });
-  return result.data;
-};*/
 
 const API_URL = "https://api.uprodit.com/v2/profile/picture/f";
 
 const api_auth = 'https://api.uprodit.com/v1/authheader';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json', 
-  //'Access-Control-Allow-Origin': 'https://api.uprodit.com/v1/authheader',
-  /*'Access-Control-Allow-Origin':'http://localhost:4200',
-  'Access-Control-Allow-Methods': 'POST, GET,OPTIONS, PUT, DELETE',
-  "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
-  'Access-Control-Allow-Credentials': 'true'
-*/
-  //'Access-Control-Allow-Headers': 'X-PINGOTHER, Content-Type'
- // 'Authorization': 'Auth ?auth_signature=YfgEOH%2FEfAhneU1YLJoAlUUJZLs%3D&auth_nonce=oLUmYFOyE6tkHCRxrgHkzAy2QW8%3D&auth_callback=%2Fv1%2Fsearch%2Fall%3FstartIndex%3D0%26maxResults%3D10%26usecase%3Dperso&auth_timestamp=1671276008165&auth_token=190a2853-f446-4f54-b4b6-9f892ef97a86&auth_signature_method=HMAC-SHA1&auth_consumer_key=nhVb3d%2B3t0rP0j%2BdAGc6Mv1O5LA%3D'
-})
+  headers: new HttpHeaders({ 'Content-Type': 'application/json'})
 };
-
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
-
-
-
-
-/*
-const hmacsha1 = require('hmacsha1');
-const uuid = require('uuid');*/
-/*
-const appid = "challenge_uprodit";
-const env  = "production";
-const uri = "https://api.uprodit.com/v1/search/all?startIndex=0&maxResults=10&usecase=perso";
-*/
-
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class UprodService {
-
- // uprod: Uprod[] = []
  
-  constructor(private http: HttpClient) { 
-  // console.log( this.generateSignature("challenge_uprodit", "production", "https://api.uprodit.com/v1/search/all?startIndex=0&maxResults=10&usecase=perso"));
-  
-  }
-
-
-  getAll(): Observable<Uprod[]> {
-   /* Axios.post('/user', {
-      firstName: 'Fred',
-      lastName: 'Flintstone'
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });*/
-    return this.http.get<Uprod[]>(api_auth);
-  }
-
-
-  public sendGetRequest(){
-    return this.http.get(baseUrl);
-  }
-
-
-  get(id: any): Observable<Uprod> {
-    return this.http.get(`${API_URL}/${id}`);
-  }
-/*
-  create(data: any): Observable<any> {
-    return this.http.post(baseUrl, data);
-  }
-
-  update(id: any, data: any): Observable<any> {
-    return this.http.put(`${baseUrl}/${id}`, data);
-  }
-
-  delete(id: any): Observable<any> {
-    return this.http.delete(`${baseUrl}/${id}`);
-  }
-
-  deleteAll(): Observable<any> {
-    return this.http.delete(baseUrl);
-  }
-
-  findByTitle(title: any): Observable<Uprod[]> {
-    return this.http.get<Uprod[]>(`${baseUrl}?title=${title}`);
-  }
-*/
+  constructor(private http: HttpClient) { }
 
   //  auth
 
@@ -124,15 +41,6 @@ export class UprodService {
     });
   }
 
-/*
-  login(Autorisation: string, password: string): Observable<any> {
-    return this.http.post(api_auth, {
-      Autorisation,
-      password
-    }, httpOptions);
-  }*/
-
-  
   SearchAll(auth: any) : Observable<Comwork[]> {
     return this.http.get<Comwork[]>(baseUrl, {
       headers: {
@@ -141,11 +49,7 @@ export class UprodService {
       }
     })
   }
-/*
-  getData() {
-    return this.http.get(`${API_URL}/14896397`);//'/assets/config.json'
-  }
-  */
+
   getImage(id: any,auth: any): Observable<Uprod> {
     return this.http.get(`${API_URL}/${id}`, {
       headers: {
@@ -156,17 +60,13 @@ export class UprodService {
   }
 
 
-
-  public getToken(): string | null {
-    return window.sessionStorage.getItem(TOKEN_KEY);
-  }
-  public getUser(): any {
-    const user = window.sessionStorage.getItem(USER_KEY);
-    if (user) {
-      return JSON.parse(user);
-    }
-
-    return {};
+  getTerms(term: any,auth: any): Observable<Uprod> {
+    return this.http.get(`${baseUrl}&terms=${term}`, {
+      headers: {
+         Authorization : auth , 
+        //'Content-Type': 'application/json'
+      }
+    });
   }
 
 
