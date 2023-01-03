@@ -1,7 +1,14 @@
-FROM node:14.17.3-alpine
+# base image
+FROM node:16.3.0-alpine
+# set working directory
 WORKDIR /app
-COPY package.json .
+
+# install and cache app dependencies
+COPY package.json /app/package.json
 RUN npm install
-COPY . .
-EXPOSE 4200 49153
-CMD npm run start
+RUN npm install -g @angular/cli@7.3.9
+
+# add app
+COPY . /app
+# start app
+ENTRYPOINT ["ng","serve","--host", "0.0.0.0","--port","4200"]
