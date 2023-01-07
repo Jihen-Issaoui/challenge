@@ -4,20 +4,21 @@
   <input type="text" [(ngModel)]="filterText" placeholder="Search" style="width: 450px; padding: 2px 20px; height: 30px;" (keyup)="onSearch($event)" >
 </div>   
 <br><br>
-<mat-grid-list class="example-list"  cols="4" rowHeight="4:6">
+<mat-grid-list class="example-list"  cols="4" rowHeight="2:3">
   <mat-grid-tile *ngFor="let comwork of comworks">
 <mat-card class="example-card">
   <mat-card-content>
     <img mat-card-image id="myimage" [src]="comwork.image_url"  />
     <mat-card-title>{{ comwork.denomination }}</mat-card-title>
-    <mat-card-subtitle> <p>
+    <mat-card-subtitle> <p> <strong>spécialités :</strong> 
       {{comwork.specialities}}
   </p></mat-card-subtitle> 
-  </mat-card-content>
+  
     <mat-card-header>
       <p> {{ comwork.stars_count}} </p>
       <img  mat-card-image src="assets/etoile_81607.png" alt="etoile"  style="width:5%">             
     </mat-card-header>
+    </mat-card-content>
 </mat-card>
 </mat-grid-tile>
 </mat-grid-list>

@@ -8,20 +8,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'challenge';
-
- /* constructor(private http: HttpClient) {}
-  ngOnInit() {
-		// API Call
-		let headers = new HttpHeaders({
-			'x-rapidapi-host': 'random-facts2.p.rapidapi.com',
-			'x-rapidapi-key': 'your-api-key'
-		});
-		this.http
-			.get<any>('https://random-facts2.p.rapidapi.com/getfact', {
-				headers: headers
-			})
-			.subscribe(data => {
-				console.log(data);
-			});
-	}*/
 }
